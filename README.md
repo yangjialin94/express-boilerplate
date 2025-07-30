@@ -1,22 +1,26 @@
-# Knowli API
+# Express TypeScript Boilerplate
 
-A robust Express.js API built with TypeScript, featuring sample endpoints for testing and development.
+A modern Express.js boilerplate with TypeScript, featuring comprehensive sample endpoints, development tools, and best practices for building robust APIs.
 
 ## 🚀 Features
 
 - **TypeScript** - Full type safety and modern JavaScript features
 - **Express.js** - Fast, unopinionated web framework
+- **PostgreSQL** - Robust relational database integration
+- **Redis** - High-performance caching and session storage
 - **CORS** - Cross-origin resource sharing enabled
 - **Environment Variables** - Configurable via `.env` file
 - **Error Handling** - Comprehensive error handling middleware
 - **Linting & Formatting** - ESLint and Prettier configured
 - **Auto-reload** - Nodemon for development
-- **Sample APIs** - Ready-to-use endpoints for testing
+- **Sample APIs** - Ready-to-use endpoints for learning and testing
+- **Testing Tools** - Browser and shell script API testers included
+- **Production Ready** - Build scripts and best practices
 
 ## 📁 Project Structure
 
-```
-knowli-api/
+```text
+express-boilerplate/
 ├── src/
 │   └── server.ts          # Main server file with all routes
 ├── dist/                  # Compiled JavaScript output
@@ -30,7 +34,17 @@ knowli-api/
 └── README.md              # This file
 ```
 
-## 🛠 Setup & Installation
+## 🛠 Quick Start
+
+### Prerequisites
+
+Make sure you have the following services running:
+
+- **PostgreSQL** - Database server
+- **Redis** - Cache and session store
+- **Node.js** - Runtime environment (v18+ recommended)
+
+### Installation
 
 1. **Clone and install dependencies:**
 
@@ -38,17 +52,13 @@ knowli-api/
    npm install
    ```
 
-2. **Environment setup:**
-   The `.env` file is already configured with default values:
+2. **Set up your database:**
 
-   ```
-   PORT=3001
-   NODE_ENV=development
-   DB_PATH=./database/knowli.db
-   API_PREFIX=/api/v1
-   CORS_ORIGIN=http://localhost:3000
-   JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-   JWT_EXPIRES_IN=24h
+   ```bash
+   # Create a PostgreSQL database
+   createdb express_boilerplate
+
+   # Update .env with your database credentials
    ```
 
 3. **Start development server:**
@@ -57,11 +67,51 @@ knowli-api/
    npm run dev
    ```
 
-4. **Build for production:**
-   ```bash
-   npm run build
-   npm start
-   ```
+   The server will start at `http://localhost:3001`
+
+4. **Test the API:**
+   - Open `api-tester.html` in your browser for interactive testing
+   - Or run `./test-apis.sh` to test all endpoints
+
+### Docker Development Setup (Optional)
+
+For a consistent development environment with PostgreSQL and Redis:
+
+```bash
+# Start PostgreSQL and Redis with Docker Compose
+docker-compose up -d postgres redis
+
+# Or use individual Docker containers
+docker run --name postgres-dev -e POSTGRES_DB=express_boilerplate -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres:15
+docker run --name redis-dev -p 6379:6379 -d redis:7-alpine
+```
+
+## 🔧 Environment Configuration
+
+The `.env` file is already configured with default values:
+
+```env
+PORT=3001
+NODE_ENV=development
+API_PREFIX=/api/v1
+CORS_ORIGIN=http://localhost:3000
+
+# PostgreSQL Database
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=express_boilerplate
+DB_USER=postgres
+DB_PASSWORD=your_password
+
+# Redis Cache
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=
+
+# JWT Configuration
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+JWT_EXPIRES_IN=24h
+```
 
 ## 📚 Available Scripts
 
@@ -86,12 +136,14 @@ knowli-api/
 - **GET** `/api/v1/users` - Get all users (mock data)
 - **GET** `/api/v1/users/:id` - Get user by ID
 - **POST** `/api/v1/users` - Create new user
+
   ```json
   {
     "name": "John Doe",
     "email": "john@example.com"
   }
   ```
+
 - **PUT** `/api/v1/users/:id` - Update user
 - **DELETE** `/api/v1/users/:id` - Delete user
 
@@ -184,6 +236,9 @@ All configuration is handled through environment variables in `.env`:
 - `NODE_ENV` - Environment mode
 - `API_PREFIX` - API route prefix
 - `CORS_ORIGIN` - Allowed CORS origin
+- `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` - PostgreSQL connection
+- `REDIS_HOST`, `REDIS_PORT`, `REDIS_PASSWORD` - Redis connection
+- `JWT_SECRET`, `JWT_EXPIRES_IN` - JWT authentication settings
 
 ## 📊 Response Format
 
@@ -224,27 +279,57 @@ All API responses follow a consistent format:
 }
 ```
 
-## 🚀 Next Steps
+## 🚀 Getting Started with Your Project
 
-Consider adding:
+This boilerplate provides a solid foundation for building APIs. Here's how to customize it for your needs:
 
-- [ ] Database integration (SQLite setup included)
-- [ ] Authentication middleware (JWT ready)
-- [ ] Input validation with Joi or Zod
-- [ ] API documentation with Swagger
-- [ ] Unit tests with Jest
-- [ ] Rate limiting
-- [ ] Logging with Winston
-- [ ] Docker containerization
+### 1. Customize the Project
 
-## 🔒 Security Notes
+- Update the `name` field in `package.json`
+- Modify environment variables in `.env`
+- Replace sample endpoints with your actual API routes
+- Update this README with your project's specific information
 
-- Change the `JWT_SECRET` in production
-- Update CORS settings for production URLs
-- Add input validation for all endpoints
-- Implement proper authentication
-- Use HTTPS in production
+### 2. Extend the Functionality
 
-## 📝 License
+Consider adding these features based on your requirements:
 
-ISC License - Feel free to use this project as a starting point for your APIs!
+- [ ] **Database Migrations** - Add database schema migration tools
+- [ ] **Database ORM/Query Builder** - Integrate Prisma, TypeORM, or Knex.js
+- [ ] **Redis Session Management** - Implement session storage with Redis
+- [ ] **Caching Layer** - Add Redis-based API response caching
+- [ ] **Authentication** - JWT middleware is ready, add your auth logic
+- [ ] **Input Validation** - Add Joi, Zod, or express-validator
+- [ ] **API Documentation** - Integrate Swagger/OpenAPI
+- [ ] **Testing Suite** - Add Jest or Mocha with comprehensive tests
+- [ ] **Rate Limiting** - Implement express-rate-limit with Redis store
+- [ ] **Logging** - Add Winston or similar logging library
+- [ ] **Docker Support** - Add Dockerfile and docker-compose.yml
+- [ ] **CI/CD Pipeline** - GitHub Actions, GitLab CI, or similar
+
+### 3. Production Deployment
+
+Before deploying to production:
+
+- Set up production PostgreSQL and Redis instances
+- Update database and Redis connection strings in environment variables
+- Change the `JWT_SECRET` to a secure random string
+- Update CORS settings for your production URLs
+- Set `NODE_ENV=production`
+- Configure proper logging and monitoring
+- Use HTTPS and security headers
+- Set up database backups and Redis persistence
+- Configure connection pooling for PostgreSQL
+- Implement Redis clustering if needed for high availability
+
+## 📝 Contributing
+
+This is a boilerplate project designed to be forked and customized. Feel free to:
+
+- Fork this repository for your own projects
+- Submit issues for bugs or improvements
+- Create pull requests for enhancements that benefit the boilerplate
+
+## � License
+
+MIT License - Feel free to use this boilerplate as a starting point for your APIs!
